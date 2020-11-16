@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 '''
-Text processing functions for user message input to a chatbot
+python3 Text processing functions for user message input to a chatbot
 
 When talking with a chatbot, will take the text, use spacy to extract entities then search the entities on wikipedia. The
 return text is then saved to a csv file with epoch_time of the request, clock time of the reques, date, MD5 hash of the summary and the 
@@ -33,7 +33,6 @@ message = "I saw the movie gone with the wind starring Vivien Leigh, made in 193
 extracted_entities = []
 
 def entity_extraction(message):
-    ''' take in user message and extract entities using spacy, write out entities to empty list '''
     nlp = spacy.load('en')
     user_sentence = nlp(message)
     for entity in user_sentence.ents:
@@ -47,13 +46,11 @@ def entity_extraction(message):
 entity_extraction(message)
 
 def hash_paragraph(paragraph):
-    ''' paragraph hashing function for text summaries in case summaries change over time '''
     hash_text = hashlib.md5()
     hash_text.update(paragraph.encode('utf-8'))
     return hash_text.hexdigest()
 
 def get_wikipedia_summary():
-    ''' gets wikipedia summary for extracted entities from the user message '''
     for entity in extracted_entities:
         summary = wikipedia.summary(entity).replace('\n',' ')
         summary_hash = hash_paragraph(summary)
